@@ -1,15 +1,16 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from django.views.decorators.csrf import csrf_protect
-
 def home(request):
     print('home function called')
-    return HttpResponse("<h1>Hello World!</h1>")
+    return render(request, 'home.html')
 
-@csrf_protect
 def index(request):
     print('index function called')
-    if request.method == "POST":
-        print(request.POST)
-    return render(request, 'index.html')
+
+    context = {'blogs': [{'blogheading': 'Blog Heading 1', 'blogcontent': 'THis is the content of blog 1'}, \
+    { 'blogheading': 'Blog Heading 2', 'blogcontent': 'THis is the content of blog 2'}, { 'blogheading': 'Blog Heading 3', \
+     'blogcontent': 'THis is the content of blog 3'}, { 'blogheading': 'Blog Heading 4', 'blogcontent': 'THis is the content of blog 4'}, \
+     { 'blogheading': 'Blog Heading 5', 'blogcontent': 'THis is the content of blog 5'}]}
+
+    return render(request, 'index.html', context)

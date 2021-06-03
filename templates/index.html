@@ -1,1 +1,23 @@
-<h1> Hello world from template </h1>
+{% extends 'base.html' %}
+
+
+{% block content %}
+    
+    <div class="container p-4">
+        {% for blog in blogs %}
+        <div class="row">
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-8">
+            <h2>{{blog.blogheading}}</h2>
+            <p>{{blog.blogcontent}}</p>
+
+          </div>
+          <div class="col-md-2">
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+    
+{% endblock content %}
