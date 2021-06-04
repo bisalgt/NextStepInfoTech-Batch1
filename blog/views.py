@@ -1,16 +1,22 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from django.db import connection
+
 def home(request):
     print('home function called')
     return render(request, 'home.html')
 
+
+def my_custom_sql():
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM blogs", [])
+        blogs = cursor.fetchall()
+    return blogs
+
 def index(request):
-    print('index function called')
-
-    context = {'blogs': [{'blogheading': 'Blog Heading 1', 'blogcontent': 'THis is the content of blog 1'}, \
-    { 'blogheading': 'Blog Heading 2', 'blogcontent': 'THis is the content of blog 2'}, { 'blogheading': 'Blog Heading 3', \
-     'blogcontent': 'THis is the content of blog 3'}, { 'blogheading': 'Blog Heading 4', 'blogcontent': 'THis is the content of blog 4'}, \
-     { 'blogheading': 'Blog Heading 5', 'blogcontent': 'THis is the content of blog 5'}]}
-
+    print('index function called ------------------------------------------------------')
+    blogs = my_custom_sql()
+    context = {'blogs': blogs}
+    print(context)
     return render(request, 'index.html', context)

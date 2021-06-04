@@ -5,18 +5,18 @@
     
     <div class="container p-4">
         {% for blog in blogs %}
-        <div class="row">
+        <div class="row" >
           <div class="col-md-2">
           </div>
-          <div class="col-md-8">
-            <h2>{{blog.blogheading}}</h2>
-            <p>{{blog.blogcontent}}</p>
-
+          <div class="col-md-8 m-4" style="background-color: antiquewhite; border: 1px solid beige;">
+            <h2>{{blog.1}}</h2> <hr>
+            <p>{{blog.2}}-- {{blog.0}}</p>
           </div>
           <div class="col-md-2">
           </div>
         </div>
         {% endfor %}
+
 
       </div>
     
