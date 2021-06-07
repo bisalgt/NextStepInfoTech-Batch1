@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <br><br>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Title</label>
+                <input type="text" class="form-control" name="title" id="exampleFormControlInput1" placeholder="Title for Blog">
+              </div>
+              <br><br>
+              <div class="form-group">
+                <label for="exampleFormControlTextarea1">Blog Content</label>
+                <textarea class="form-control" name="content" id="exampleFormControlTextarea1" rows="3"></textarea>
+              </div>
+              <br><br>
+              <input type="submit" value="Save Blog"><br><br>
+            </form>
+
+        </div>
+
+    </div>
+    
+
+
+{% endblock content %}
