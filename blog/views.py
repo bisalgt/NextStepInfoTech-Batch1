@@ -2,6 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.db import connection
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
+from django.core.files.storage import FileSystemStorage
+from django.core.paginator import Paginator
 
 def home(request):
     print('home function called')
@@ -17,15 +19,16 @@ def my_custom_sql():
 def index(request):
     print('index function called ------------------------------------------------------')
     blogs = my_custom_sql()
-    context = {'blogs': blogs}
-    print(context)
-    return render(request, 'index.html', context)
+    paginator = Paginator(blogs, 2) # Show 25 contacts per page.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'index.html', {'page_obj': page_obj})
 
-def save_blog(title, content):
+def save_blog(title, content, image_url):
     with connection.cursor() as cursor:
-        query = "INSERT INTO blogs (heading, content) VALUES (%s, %s)"
-        list_of_values = [title, content]
-        cursor.execute("INSERT INTO blogs (heading, content) VALUES (%s, %s)", [title, content])
+        # query = "INSERT INTO blogs (heading, content, image) VALUES (%s, %s, %s)"
+        # list_of_values = [title, content]
+        cursor.execute("INSERT INTO blogs (heading, content, image) VALUES (%s, %s, %s)", [title, content, image_url])
         # cursor.execute(query, list_of_values)
     return True
 
@@ -38,6 +41,14 @@ def add_blog(request):
         print(request.POST)
         title = request.POST["title"]
         content = request.POST["content"]
-        print("Title = ",title, "Content  = ",content)
-        save_blog(title, content)
+        image = request.FILES["image"]
+        print("Title = ",title, "Content  = ",content, "Image = ", image)
+        fs = FileSystemStorage()
+        print("IMage attribute =======", image.name)
+        name = "blogs/"+ image.name
+        print(name)
+        fs.save(name=name, content=image)
+        # image_url = fs.url(name=image.name)
+        # print(fs.url(name=image.name), fs.path(name=image.name))
+        # save_blog(title, content, image_url)
     return render(request, 'add_blog.html') 
