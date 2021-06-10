@@ -12,7 +12,12 @@
           </div>
           <div class="col-md-8 m-4" style="background-color: antiquewhite; border: 1px solid beige;">
             <h2>{{blog.1}}</h2> <hr>
+            {% if blog.3 %}
             <img src={{blog.3}} alt="My image" style="max-width: 200px;">
+
+            {% else %}
+            <img src="/mycustompath/abc.jpg" style="max-width: 200px;">
+            {% endif %}
             <p>{{blog.2}}-- {{blog.0}}</p>
           </div>
           <div class="col-md-2">
