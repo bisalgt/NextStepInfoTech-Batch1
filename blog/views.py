@@ -39,17 +39,23 @@ def save_blog(title, content, image_url):
 def add_blog(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
+        # print('======================',request.POST,'=============================')
+        # print('0000000======',request.FILES,'=============================')
         form = BlogForm(request.POST, request.FILES)
         # check whether it's valid:
         if form.is_valid():
             # print("-------------------------", form.cleaned_data)
 
             title = form.cleaned_data["title"]
-            content =  form.cleaned_data["content"]
-            image = form.cleaned_data.get('image')
+            content =  form.cleaned_data.get('content')
+            image = form.cleaned_data.get('image', "NO IMage")
+            
             fs = FileSystemStorage()
-            fs.save('img.jpg', content = image)
-            print(title, content, image)
+            image_name = f'{title}_image.jpg'
+            fs.save(image_name,content=image)
+            print(fs.url(image_name))
+            # print(title, content, image)
+            save_blog(title, content, fs.url(image_name))
             return redirect("index")
     # if a GET (or any other method) we'll create a blank form
     else:
