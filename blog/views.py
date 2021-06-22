@@ -63,4 +63,55 @@ def add_blog(request):
 
     return render(request, 'add_blog.html', {'form': form})
 
+def detail_blog_sql(id):
+    with connection.cursor() as cursor:
+        query = "SELECT * FROM blogs WHERE id=%s"
+        place_holders = [id]
+        cursor.execute(query, place_holders)
+        blog = cursor.fetchone()
+    return blog
 
+
+
+def detail_blog(request,id):
+    blog = detail_blog_sql(id)
+    print(id, type(id))
+    return render(request, 'blog_detail.html', {'blog': blog})
+
+
+def delete_blog_sql(id):
+    try:
+        with connection.cursor() as cursor:
+            query = "DELETE FROM blogs WHERE id=%s"
+            place_holders = [id]
+            cursor.execute(query, place_holders)
+    except Exception as e:
+        return False
+    return True
+
+
+def delete_blog(request, id):
+    result = delete_blog_sql(id)
+    if result:
+        return render(request, 'blog_delete.html', {'id': id})
+    else:
+        return HttpResponse("Blog doesnot exists")
+
+
+
+
+# def update_blog_sql(id):
+#     try:
+#         with connection.cursor() as cursor:
+#             query = "UPDATE FROM blogs WHERE id=%s"
+#             place_holders = [id]
+#             cursor.execute(query, place_holders)
+#     except Exception as e:
+#         return False
+#     return True
+
+
+def update_blog(request, id):
+    blog = detail_blog_sql(id)
+    form = BlogForm({'title': blog[1], 'content': blog[2]})
+    return render(request, 'update_blog.html', {'form': form})

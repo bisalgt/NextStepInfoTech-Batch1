@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} <title>My Blog-- Detail Page</title> {% endblock title %}
+
+{% block content %}
+    <h1> This is my Detail page of blog ID {{blog.0 }} </h1>
+
+        <div class="row" >
+          <div class="col-md m-4" style="background-color: antiquewhite; border: 1px solid beige;">
+            <h2>{{blog.1}}</h2> <hr>
+            {% if blog.3 %}
+            <a href={{blog.3}}><img src={{blog.3}} alt="My image" style="max-width: 200px;"></a>
+
+            {% else %}
+            <img src="{% static 'abc.jpg' %}" style="max-width: 200px;">
+            {% endif %}
+            <p>{{blog.2}}-- {{blog.0}}</p>
+            <br>
+            <a href="{% url 'delete_blog' blog.0 %}"> <button class="btn btn-danger"> Delete</button> </a>
+            <a href="{% url 'update_blog' blog.0 %}"> <button class="btn btn-warning"> Update </button> </a>
+            <br>
+          </div>
+          
+        </div>
+
+{% endblock content %}
