@@ -1,11 +1,15 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, resolve_url
 from django.db import connection
+from django.urls.base import reverse_lazy
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator
+from django.views.generic import ListView, CreateView
+from django.urls import reverse
 
-from .forms import BlogForm
+from .forms import BlogForm, BlogModelForm
+from .models import Blog
 
 def home(request):
     print('home function called')
@@ -115,3 +119,17 @@ def update_blog(request, id):
     blog = detail_blog_sql(id)
     form = BlogForm({'title': blog[1], 'content': blog[2]})
     return render(request, 'update_blog.html', {'form': form})
+
+
+class BlogListView(ListView):
+    model = Blog
+    context_object_name = 'blogs'
+    template_name = 'list_blog.html'
+
+
+class BlogCreateView(CreateView):
+    model = Blog
+    form_class = BlogModelForm
+    template_name = 'create_blog.html'
+    success_url = reverse_lazy('list_blog')
+
