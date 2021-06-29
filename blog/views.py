@@ -7,6 +7,9 @@ from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator
 from django.views.generic import ListView, CreateView
 from django.urls import reverse
+from django.views import View
+from django.views.generic.detail import DetailView
+
 
 from .forms import BlogForm, BlogModelForm
 from .models import Blog
@@ -131,5 +134,18 @@ class BlogCreateView(CreateView):
     model = Blog
     form_class = BlogModelForm
     template_name = 'create_blog.html'
-    success_url = reverse_lazy('list_blog')
+    # success_url = reverse_lazy('list_blog')
 
+
+class BlogBasicView(View):
+    
+    def get(self, request, *args, **kwargs):
+        return HttpResponse('Hello, World!')
+
+
+class BlogDetailView(DetailView):
+    model = Blog # list of objects to search
+    # url--- pk; search for object whose pk value is pk
+    # query_pk_and_slug = True
+    slug_field = 'slug_field'
+    template_name = 'blog_detail.html'
