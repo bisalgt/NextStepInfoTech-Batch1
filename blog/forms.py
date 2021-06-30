@@ -11,3 +11,13 @@ class BlogModelForm(forms.ModelForm):
     class Meta:
         model = Blog
         fields = ['title', 'content']
+
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+
+from django.conf import settings
+
+class CreateUserForm(UserCreationForm):
+    class Meta(UserCreationForm):
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']

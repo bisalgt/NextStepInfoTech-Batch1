@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
 
@@ -11,3 +12,6 @@ class Blog(models.Model):
 
     def get_absolute_url(self):
         return reverse("detail_class_blog", kwargs={"pk": self.pk, 'slug': self.slug_field})
+
+# class NewUser(AbstractUser):
+#     contact = models.CharField(null=True, blank=True, max_length=240)

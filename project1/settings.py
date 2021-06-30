@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # user defined apps
     'blog',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +142,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # /media/imagename.jpg   = /media/
 
 # /randomvalue/image.jpg  = /randomvalue/
+from django.urls import reverse
+
+LOGIN_REDIRECT_URL = '/home/'
+# LOGOUT_REDIRECT_URL = 
+
+LOGIN_URL = '/login/'
+
+
+# AUTH_USER_MODEL =  'blog.NewUser'

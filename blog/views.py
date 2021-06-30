@@ -129,8 +129,9 @@ class BlogListView(ListView):
     context_object_name = 'blogs'
     template_name = 'list_blog.html'
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Blog
     form_class = BlogModelForm
     template_name = 'create_blog.html'
@@ -149,3 +150,15 @@ class BlogDetailView(DetailView):
     # query_pk_and_slug = True
     slug_field = 'slug_field'
     template_name = 'blog_detail.html'
+
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from .forms import CreateUserForm
+
+from django.conf import settings
+
+class UserCreateView(CreateView):
+    model = User
+    form_class = CreateUserForm
+    template_name = 'create_user.html'
+    success_url = reverse_lazy('login')
