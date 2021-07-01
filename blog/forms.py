@@ -1,6 +1,7 @@
 from django import forms
+import django
 
-from .models import Blog
+from .models import Blog, NewUser
 
 class BlogForm(forms.Form):
     title = forms.CharField(label="This is My title: ", widget=forms.TextInput(attrs={"class": "form-control"}))
@@ -14,10 +15,18 @@ class BlogModelForm(forms.ModelForm):
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.forms.models import ModelForm
 
 from django.conf import settings
 
 class CreateUserForm(UserCreationForm):
     class Meta(UserCreationForm):
-        model = User
-        fields = ['username', 'first_name', 'last_name', 'email']
+        model = NewUser
+        fields = ['username', 'first_name', 'last_name', 'email', 'contact', 'image']
+
+
+
+class UpdateForm(ModelForm):
+    class Meta:
+        model = NewUser
+        fields = ['first_name', 'last_name', 'email', 'contact', 'image']

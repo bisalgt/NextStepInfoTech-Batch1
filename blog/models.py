@@ -13,5 +13,6 @@ class Blog(models.Model):
     def get_absolute_url(self):
         return reverse("detail_class_blog", kwargs={"pk": self.pk, 'slug': self.slug_field})
 
-# class NewUser(AbstractUser):
-#     contact = models.CharField(null=True, blank=True, max_length=240)
+class NewUser(AbstractUser):
+    contact = models.CharField(null=True, blank=True, max_length=240)
+    image = models.ImageField(null=True, blank=True)

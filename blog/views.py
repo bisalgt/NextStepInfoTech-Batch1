@@ -12,7 +12,7 @@ from django.views.generic.detail import DetailView
 
 
 from .forms import BlogForm, BlogModelForm
-from .models import Blog
+from .models import Blog, NewUser
 
 def home(request):
     print('home function called')
@@ -152,13 +152,31 @@ class BlogDetailView(DetailView):
     template_name = 'blog_detail.html'
 
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
-from .forms import CreateUserForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from .forms import CreateUserForm, UpdateForm
+from .models import NewUser
+from django.views.generic.edit import UpdateView
 
 from django.conf import settings
 
 class UserCreateView(CreateView):
-    model = User
+    model = NewUser
     form_class = CreateUserForm
     template_name = 'create_user.html'
     success_url = reverse_lazy('login')
+
+
+
+class UserUpdateView(UpdateView):
+    model = NewUser
+    form_class = UpdateForm
+    template_name = 'create_user.html'
+    success_url = reverse_lazy('login')
+
+
+# class DetailUserView
+
+from django.contrib.auth import authenticate, login, logout
+
+
+
