@@ -11,7 +11,7 @@ class BlogForm(forms.Form):
 class BlogModelForm(forms.ModelForm):
     class Meta:
         model = Blog
-        fields = ['title', 'content']
+        fields = ['title', 'content', 'author_many']
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -22,11 +22,11 @@ from django.conf import settings
 class CreateUserForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = NewUser
-        fields = ['username', 'first_name', 'last_name', 'email', 'contact', 'image']
+        fields = ['username', 'first_name', 'last_name', 'email', 'contact', 'image', 'user_type',]
 
 
 
 class UpdateForm(ModelForm):
     class Meta:
         model = NewUser
-        fields = ['first_name', 'last_name', 'email', 'contact', 'image']
+        fields = ['first_name', 'last_name', 'email', 'contact', 'image', 'user_type']

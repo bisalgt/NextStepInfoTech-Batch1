@@ -151,19 +151,37 @@ class BlogDetailView(DetailView):
     slug_field = 'slug_field'
     template_name = 'blog_detail.html'
 
+    # def get(self):
+    #     print(self)
+    #     super().get(self.request)
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["key"] = 'value'
+    #     print(context)
+    #     return context
+
+
+
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .forms import CreateUserForm, UpdateForm
-from .models import NewUser
 from django.views.generic.edit import UpdateView
-
 from django.conf import settings
+from django.contrib.auth.mixins import UserPassesTestMixin
 
-class UserCreateView(CreateView):
+from .models import NewUser
+from .forms import CreateUserForm, UpdateForm
+
+class UserCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = NewUser
     form_class = CreateUserForm
     template_name = 'create_user.html'
     success_url = reverse_lazy('login')
+
+    def test_func(self):
+        print('USer passes test = ', self.request.user.user_type)
+        print(self.request.user.user_type==1)
+        return self.request.user.user_type==1
 
 
 
@@ -171,7 +189,7 @@ class UserUpdateView(UpdateView):
     model = NewUser
     form_class = UpdateForm
     template_name = 'create_user.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('home')
 
 
 # class DetailUserView
@@ -179,4 +197,4 @@ class UserUpdateView(UpdateView):
 from django.contrib.auth import authenticate, login, logout
 
 
-
+# DELTEVIEW, UPDATEVIEW
