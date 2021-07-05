@@ -137,6 +137,27 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
     template_name = 'create_blog.html'
     # success_url = reverse_lazy('list_blog')
 
+    # def post(self, *args, **kwargs):
+    #     print("This is inside the post -------------------------")
+    #     self.author = self.request.user
+    #     return super().post(*args, **kwargs)
+
+    def form_invalid(self, *args, **kwargs):
+        print("Form is invalid ")
+        return super().form_invalid(*args, **kwargs)
+
+    def form_valid(self, *args, **kwargs):
+        print("Form is Valid")
+        # print(dir(self))
+        print(self.request.user, ' Current User ')
+        print(self.fields)
+        print(args, kwargs)
+        print(args[0].fields)
+        # args[0].fields["author"] = self.request.user
+        args[0].instance.author = self.request.user
+        return super().form_valid(*args, **kwargs)
+
+
 
 class BlogBasicView(View):
     
@@ -179,9 +200,10 @@ class UserCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     success_url = reverse_lazy('login')
 
     def test_func(self):
+        print(self.request.user)
         print('USer passes test = ', self.request.user.user_type)
         print(self.request.user.user_type==1)
-        return self.request.user.user_type==1
+        return self.request.user.user_type in [1, 2]
 
 
 

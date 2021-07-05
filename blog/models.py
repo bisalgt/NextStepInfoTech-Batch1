@@ -9,8 +9,8 @@ class Blog(models.Model):
     title = models.CharField(max_length=250)
     content = models.TextField()
     slug_field = models.SlugField(null=True, blank=True)
-    # author = models.ForeignKey('NewUser', on_delete=CASCADE, null=True, blank=True) # ManyToONeField
-    author_many = models.ManyToManyField('NewUser')
+    author = models.ForeignKey('NewUser', on_delete=CASCADE, null=True, blank=True) # ManyToONeField
+    # author_many = models.ManyToManyField('NewUser')
 
 
     def __str__(self):
@@ -18,6 +18,17 @@ class Blog(models.Model):
 
     def get_absolute_url(self):
         return reverse("detail_class_blog", kwargs={"pk": self.pk, 'slug': self.slug_field})
+
+    def save(self, *args, **kwargs):
+        self.slug_field = self.title.replace(' ', '-')
+        # self.author = self.request.user
+        # print(self.request, args, kwargs)
+        return super().save(*args, **kwargs)
+
+    # def clean_fields(self, *args, **kwargs):
+    #     print(self.request)
+    #     return super().clean_fields(*args, **kwargs)
+
 
 class NewUser(AbstractUser):
     contact = models.CharField(null=True, blank=True, max_length=240)
