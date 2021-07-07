@@ -220,3 +220,16 @@ from django.contrib.auth import authenticate, login, logout
 
 
 # DELTEVIEW, UPDATEVIEW
+
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
+
+# @csrf_exempt
+# @login_required
+def ajax_view(request):
+    # print(request.GET)
+    print(request.POST)
+    print(request.user)
+    # Comments.objects.create(title='',author= )
+    print("this function is called")
+    
+    return HttpResponse('hello  world')

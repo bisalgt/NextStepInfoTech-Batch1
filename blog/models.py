@@ -47,3 +47,9 @@ class NewUser(AbstractUser):
 class Profile(models.Model):
     user = models.OneToOneField(NewUser, on_delete=CASCADE)
     address = models.CharField(max_length=434)
+
+
+class Comment(models.Model):
+    title = models.CharField(max_length=250)
+    author = models.ForeignKey(NewUser, on_delete=CASCADE)
+    blog = models.ForeignKey(Blog, on_delete=CASCADE)

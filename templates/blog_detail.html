@@ -17,6 +17,15 @@
             {% endif %}
             <p>{{blog.content}}-- {{blog.0}}</p>
             <br>
+
+            <div id='commentsId'>
+
+            </div>
+            <!-- {% csrf_token %} -->
+
+            <input type='text' id='textId'>
+            <button type='button' id='btnId' class='btn btn-success'>Add Comment</button>   <br>         
+
             <a href="{% url 'delete_blog' blog.pk %}"> <button class="btn btn-danger"> Delete</button> </a>
             <a href="{% url 'update_blog' blog.pk %}"> <button class="btn btn-warning"> Update </button> </a>
             <br>
@@ -25,3 +34,74 @@
         </div>
 
 {% endblock content %}
+
+
+{% block extra_js %}
+<script>
+  // console.log(document.readyState)
+  // if(document.readyState=='loading'){
+  //   console.log('document ready')
+  // }
+
+  $('document').ready(function(){
+    console.log('ready document');
+    const btnId = document.getElementById('btnId');
+    // console.log(btnId)
+    const textId = document.getElementById('textId');
+    const commentsId = document.getElementById('commentsId')
+
+
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+    // console.log(csrftoken)
+
+    btnId.onclick = function(){
+      console.log('btn clicked')
+      console.log(textId.value)
+      var para = document.createElement('p')
+      para.textContent = textId.value
+      commentsId.appendChild(para)
+      textId.value = '';
+      $.ajax({
+        method: "POST",
+        url: "{% url 'ajax_view' %}", // '/home/data/'
+        data: {
+          name: 'bishal',
+          age: 26,
+        },
+        headers:{
+          'X-CSRFToken': csrftoken
+        },
+        success: function(data){
+          console.log('success', data)
+        },
+        error: function(e){
+          console.log('error')
+        }
+      })
+
+    }
+
+
+  })
+
+</script>
+{% endblock extra_js %}
+
+<!-- $.ajax({
+
+}) -->
