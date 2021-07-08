@@ -19,11 +19,13 @@
             <br>
 
             <div id='commentsId'>
-
+                {% for comment in comments %}
+                  <p> <li>{{ comment.title }} </li></p>
+                {% endfor %}
             </div>
             <!-- {% csrf_token %} -->
 
-            <input type='text' id='textId'>
+            <input type='text' id='textId' required>
             <button type='button' id='btnId' class='btn btn-success'>Add Comment</button>   <br>         
 
             <a href="{% url 'delete_blog' blog.pk %}"> <button class="btn btn-danger"> Delete</button> </a>
@@ -73,26 +75,39 @@
       console.log('btn clicked')
       console.log(textId.value)
       var para = document.createElement('p')
-      para.textContent = textId.value
+      para.innerHTML = '<li>'+textId.value + '</li>'
+      title = textId.value;
       commentsId.appendChild(para)
-      textId.value = '';
-      $.ajax({
-        method: "POST",
-        url: "{% url 'ajax_view' %}", // '/home/data/'
-        data: {
-          name: 'bishal',
-          age: 26,
-        },
-        headers:{
-          'X-CSRFToken': csrftoken
-        },
-        success: function(data){
-          console.log('success', data)
-        },
-        error: function(e){
-          console.log('error')
-        }
-      })
+      
+      if(textId.value == ''){
+        // create an paragraph, append enter data on the comment
+        var para = document.createElement('p')
+        para.innerHTML = '<li><small style="color: red;">'+ 'Enter value on the comment table' + '</small></li>'
+        title = textId.value;
+        commentsId.appendChild(para)
+      } else {
+          textId.value = '';
+          $.ajax({
+          method: "POST",
+          url: "{% url 'ajax_view' %}", // '/home/data/'
+          data: {
+            title: title,
+            blog_id: {{ blog.id }},
+          },
+          headers:{
+            'X-CSRFToken': csrftoken
+          },
+          success: function(data){
+            console.log('success', data);
+            console.log(data['data'], ' THIs is sthe value')
+            // code for append html
+          },
+          error: function(e){
+            console.log('error')
+          }
+        })
+      }
+      
 
     }
 

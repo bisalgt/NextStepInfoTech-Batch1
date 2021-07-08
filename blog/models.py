@@ -53,3 +53,7 @@ class Comment(models.Model):
     title = models.CharField(max_length=250)
     author = models.ForeignKey(NewUser, on_delete=CASCADE)
     blog = models.ForeignKey(Blog, on_delete=CASCADE)
+
+    def __str__(self):
+        return self.title
+    

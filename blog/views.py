@@ -176,11 +176,12 @@ class BlogDetailView(DetailView):
     #     print(self)
     #     super().get(self.request)
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context["key"] = 'value'
-    #     print(context)
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(Comment.objects.filter(blog=context['blog']))
+        context["comments"] = Comment.objects.filter(blog=context['blog'])
+        print(context)
+        return context
 
 
 
@@ -222,14 +223,20 @@ from django.contrib.auth import authenticate, login, logout
 # DELTEVIEW, UPDATEVIEW
 
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
+from blog.models import Comment
+
 
 # @csrf_exempt
-# @login_required
+@login_required
 def ajax_view(request):
     # print(request.GET)
     print(request.POST)
+    title = request.POST.get('title')
+    blog_id = request.POST.get('blog_id')
     print(request.user)
-    # Comments.objects.create(title='',author= )
-    print("this function is called")
-    
-    return HttpResponse('hello  world')
+    comment = Comment.objects.create(title= title,author=request.user, blog = Blog.objects.get(id=blog_id))
+    print("this function is called", comment)
+    return JsonResponse({'data': 'this is data'})
