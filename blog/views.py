@@ -14,8 +14,11 @@ from django.views.generic.detail import DetailView
 from .forms import BlogForm, BlogModelForm
 from .models import Blog, NewUser
 
+import logging
+logger = logging.getLogger('django')
+
 def home(request):
-    print('home function called')
+    logger.error('new home function called')
     return render(request, 'home.html')
 
 
