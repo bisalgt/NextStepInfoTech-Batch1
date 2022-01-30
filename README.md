@@ -1,5 +1,6 @@
-This is the project to learn
+# NextStepInfoTech Batch-1
 
-# Heading 1
-## Heading 2
-### Headin
+This is the repositories where I have uploaded commits while teaching django to participants. 
+I teach them about authentication, authorization, models, views, templates and many more.
+
+Rest details can be found on commit history of this project.
